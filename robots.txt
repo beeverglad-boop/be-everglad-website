@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://be-everglad-website.pages.dev/sitemap.xml
