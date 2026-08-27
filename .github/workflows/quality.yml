@@ -24,7 +24,7 @@ jobs:
         run: |
           grep -q 'https://be-everglad-website.pages.dev/' index.html
           grep -q 'https://be-everglad-website.pages.dev/sitemap.xml' robots.txt
-          ! grep -R --exclude-dir=.git -n 'be-everglad.netlify.app' .
+          ! grep -R --exclude-dir=.git --exclude-dir=.github -n 'be-everglad.netlify.app' .
       - name: Verify trial automation contract
         run: |
           grep -q "form_name:'7-day-trial'" index.html
