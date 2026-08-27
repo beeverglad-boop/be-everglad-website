@@ -1,0 +1,36 @@
+name: Website Quality Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify-static-site:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify required files
+        run: |
+          test -f index.html
+          test -f privacy.html
+          test -f terms.html
+          test -f robots.txt
+          test -f sitemap.xml
+          test -f hvac-revenue-recovery/index.html
+          test -f hvac-missed-call-recovery/index.html
+          test -f hvac-estimate-follow-up/index.html
+      - name: Verify production URLs
+        run: |
+          grep -q 'https://be-everglad-website.pages.dev/' index.html
+          grep -q 'https://be-everglad-website.pages.dev/sitemap.xml' robots.txt
+          ! grep -R --exclude-dir=.git -n 'be-everglad.netlify.app' .
+      - name: Verify trial automation contract
+        run: |
+          grep -q "form_name:'7-day-trial'" index.html
+          grep -q 'hook.us2.make.com' index.html
+      - name: Verify sitemap coverage
+        run: |
+          grep -q '/hvac-revenue-recovery/' sitemap.xml
+          grep -q '/hvac-missed-call-recovery/' sitemap.xml
+          grep -q '/hvac-estimate-follow-up/' sitemap.xml
